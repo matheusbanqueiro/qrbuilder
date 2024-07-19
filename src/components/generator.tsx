@@ -8,6 +8,8 @@ import { UrlSchema, UrlSchemaProps } from "@/validations/url-validate";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import Wrapper from "./wrapper";
+import { DownloadIcon } from "@radix-ui/react-icons";
+
 
 const Generator: React.FC = () => {
   const [qrCodeUrl, setQrCodeUrl] = useState<string>("");
@@ -57,22 +59,23 @@ const Generator: React.FC = () => {
           <Button
             variant="default"
             onClick={handleSubmit(handleGenerateQRCode)}
-            className="text-white"
+            className="dark:text-white"
           >
             Gerar QR Code
           </Button>
         </div>
         {qrCodeUrl && (
           <div className="mt-4 flex flex-col items-center">
-            <div id="qrcode">
+            <div id="qrcode" className="p-3 border border-primary rounded-lg">
               <QRCode value={qrCodeUrl} />
             </div>
             <Button
               onClick={handleDownloadQRCode}
               variant="default"
-              className="mt-4"
+              className="mt-4 gap-3 dark:text-white"
             >
-              Download QR Code
+              <DownloadIcon className="w-5 h-5"/>
+              Download
             </Button>
           </div>
         )}
