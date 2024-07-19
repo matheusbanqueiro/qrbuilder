@@ -1,5 +1,5 @@
 "use client";
-import { ChangeEvent, memo, useState } from "react";
+import { memo, useState } from "react";
 import { ValidateInput } from "./validate-input";
 import { Button } from "./ui/button";
 import QRCode from "qrcode.react";
@@ -9,7 +9,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import Wrapper from "./wrapper";
 import { DownloadIcon } from "@radix-ui/react-icons";
-
 
 const Generator: React.FC = () => {
   const [qrCodeUrl, setQrCodeUrl] = useState<string>("");
@@ -30,15 +29,33 @@ const Generator: React.FC = () => {
     },
   });
 
-  const handleDownloadQRCode = () => {
+  const handleDownloadQRCodePNG = () => {
     const qrCodeElement = document.getElementById("qrcode");
     if (qrCodeElement) {
-      html2canvas(qrCodeElement).then((canvas) => {
+      html2canvas(qrCodeElement, { scale: 3 }).then((canvas) => {
         const link = document.createElement("a");
         link.href = canvas.toDataURL("image/png");
         link.download = "qrcode.png";
         link.click();
       });
+    }
+  };
+
+  const handleDownloadQRCodeSVG = () => {
+    const qrCodeElement = document.getElementById("qrcode");
+    if (qrCodeElement) {
+      const svgElement = qrCodeElement.querySelector("svg");
+      if (svgElement) {
+        const serializer = new XMLSerializer();
+        const svgString = serializer.serializeToString(svgElement);
+        const blob = new Blob([svgString], { type: "image/svg+xml" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "qrcode.svg";
+        link.click();
+        URL.revokeObjectURL(url); // Clean up the URL.createObjectURL blob
+      }
     }
   };
 
@@ -48,7 +65,7 @@ const Generator: React.FC = () => {
 
   return (
     <Wrapper>
-      <div className="bg-white max-w-3xl p-6 gap-6 rounded-lg mt-8 shadow-lg dark:shadow-secondary  items-center mx-auto flex-col md:flex-row flex">
+      <div className="bg-white border border-secondary max-w-3xl p-6 gap-6 rounded-lg mt-8 shadow-lg dark:shadow-secondary md:items-start items-center mx-auto flex-col md:flex-row flex">
         <div className="flex flex-col gap-4">
           <ValidateInput
             placeholder="Digite uma URL"
@@ -59,24 +76,35 @@ const Generator: React.FC = () => {
           <Button
             variant="default"
             onClick={handleSubmit(handleGenerateQRCode)}
-            className="dark:text-white"
+            className=""
           >
             Gerar QR Code
           </Button>
         </div>
         {qrCodeUrl && (
-          <div className="mt-4 flex flex-col items-center">
+          <div className="md:mt-0 mt-4 flex flex-col items-center">
             <div id="qrcode" className="p-3 border border-primary rounded-lg">
-              <QRCode value={qrCodeUrl} />
+              <QRCode value={qrCodeUrl} size={256} renderAs="svg" />
             </div>
-            <Button
-              onClick={handleDownloadQRCode}
-              variant="default"
-              className="mt-4 gap-3 dark:text-white"
-            >
-              <DownloadIcon className="w-5 h-5"/>
-              Download
-            </Button>
+            <h2 className="text-neutral-400 text-sm py-3">Download:</h2>
+            <div className="gap-4 flex justify-between">
+              <Button
+                onClick={handleDownloadQRCodePNG}
+                variant="primary"
+                className="gap-3"
+              >
+                <DownloadIcon className="w-5 h-5" />
+                png
+              </Button>
+              <Button
+                onClick={handleDownloadQRCodeSVG}
+                variant="primary"
+                className="gap-3"
+              >
+                <DownloadIcon className="w-5 h-5" />
+                svg
+              </Button>
+            </div>
           </div>
         )}
       </div>
