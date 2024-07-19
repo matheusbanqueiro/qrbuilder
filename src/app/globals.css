@@ -22,6 +22,9 @@
     --secondary: 3, 79%, 53%;
     --secondary-foreground: 0, 0%, 10%;
 
+    --tertiary: 339, 90%, 44%;
+    --tertiary-foreground: 0, 0%, 96%;
+
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
@@ -40,7 +43,7 @@
 
   .dark {
     --background: 0 0% 10%;
-    --foreground: 0 0% 9.8%;
+    --foreground: 0 0% 97.5%;
 
     --card: 222.2 84% 4.9%;
     --card-foreground: 210 40% 98%;

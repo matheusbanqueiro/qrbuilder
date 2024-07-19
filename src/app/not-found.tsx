@@ -1,3 +1,4 @@
+import { ModeToggle } from "@/components/ui/modetoggle";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -12,19 +13,19 @@ const NotFound = () => {
         className=""
       />
       <div className="text-center">
-        <p className="text-3xl font-semibold text-uni-primary-500 ">
+        <p className="text-3xl font-semibold text-tertiary ">
           Ops! Erro: 404
         </p>
-        <h1 className="mt-4 text-3xl font-bold tracking-tight text-uni-primary-800 sm:text-5xl">
+        <h1 className="mt-4 text-3xl font-bold tracking-tight text-tertiary sm:text-5xl">
           Página Inexistente
         </h1>
-        <p className="mt-6 text-base leading-7 text-neutral-600">
+        <p className="mt-6 text-base leading-7 text-neutral-600 dark:text-foreground">
           Lamentamos, mas não conseguimos encontrar a página que procura.
         </p>
         <div className="mt-10 flex items-center justify-center gap-x-6">
           <Link
             href="/"
-            className="rounded-md bg-uni-secondary-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm  hover:bg-uni-secondary-500/85 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 dark:focus-visible:outline-web-orange-500 focus-visible:outline-uni-secondary-500"
+            className="rounded-md bg-gradient px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm  hover:bg-uni-secondary-500/85 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 dark:focus-visible:outline-web-orange-500 focus-visible:outline-uni-secondary-500"
           >
             Voltar para o início
           </Link>
