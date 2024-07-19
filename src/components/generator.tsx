@@ -10,13 +10,15 @@ import { useForm } from "react-hook-form";
 import Wrapper from "./wrapper";
 
 const Generator: React.FC = () => {
+  const [qrCodeUrl, setQrCodeUrl] = useState<string>("");
+
   const {
     handleSubmit,
     register,
     formState: { errors },
-    watch,
     reset,
     setValue,
+    watch,
   } = useForm<UrlSchemaProps>({
     criteriaMode: "all",
     mode: "all",
@@ -25,7 +27,6 @@ const Generator: React.FC = () => {
       url: "",
     },
   });
-  const qrCodeUrl = watch("url");
 
   const handleDownloadQRCode = () => {
     const qrCodeElement = document.getElementById("qrcode");
@@ -40,13 +41,13 @@ const Generator: React.FC = () => {
   };
 
   const handleGenerateQRCode = async (data: UrlSchemaProps) => {
-    setValue("url", data.url);
+    setQrCodeUrl(data.url);
   };
 
   return (
     <Wrapper>
-      <div className="bg-white max-w-3xl p-6 gap-6 rounded-lg mt-8 shadow-md items-center mx-auto flex-col md:flex-row flex">
-        <div className="flex flex-col">
+      <div className="bg-white max-w-3xl p-6 gap-6 rounded-lg mt-8 shadow-lg dark:shadow-secondary  items-center mx-auto flex-col md:flex-row flex">
+        <div className="flex flex-col gap-4">
           <ValidateInput
             placeholder="Digite uma URL"
             {...register("url")}
@@ -56,6 +57,7 @@ const Generator: React.FC = () => {
           <Button
             variant="default"
             onClick={handleSubmit(handleGenerateQRCode)}
+            className="text-white"
           >
             Gerar QR Code
           </Button>
