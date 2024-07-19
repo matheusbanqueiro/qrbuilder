@@ -11,14 +11,14 @@ const Home = () => {
         width={400}
         height={400}
         alt="logo qrbuilder"
-        className="mx-auto dark:flex hidden"
+        className="mx-auto w-64 md:w-80 dark:flex hidden"
       />
       <Image
         src={"/assets/brand/logo-secondary.svg"}
         width={400}
         height={400}
         alt="logo qrbuilder"
-        className="mx-auto dark:hidden flex"
+        className="mx-auto w-64 md:w-80 dark:hidden flex"
       />
       <Generator />
     </main>
