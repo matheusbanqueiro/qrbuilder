@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import Wrapper from "./wrapper";
 import { DownloadIcon } from "@radix-ui/react-icons";
+import { handleDownloadQRCodePNG, handleDownloadQRCodeSVG } from "@/lib/helper";
 
 const Generator: React.FC = () => {
   const [qrCodeUrl, setQrCodeUrl] = useState<string>("");
@@ -28,36 +29,6 @@ const Generator: React.FC = () => {
       url: "",
     },
   });
-
-  const handleDownloadQRCodePNG = () => {
-    const qrCodeElement = document.getElementById("qrcode");
-    if (qrCodeElement) {
-      html2canvas(qrCodeElement, { scale: 3 }).then((canvas) => {
-        const link = document.createElement("a");
-        link.href = canvas.toDataURL("image/png");
-        link.download = "qrcode.png";
-        link.click();
-      });
-    }
-  };
-
-  const handleDownloadQRCodeSVG = () => {
-    const qrCodeElement = document.getElementById("qrcode");
-    if (qrCodeElement) {
-      const svgElement = qrCodeElement.querySelector("svg");
-      if (svgElement) {
-        const serializer = new XMLSerializer();
-        const svgString = serializer.serializeToString(svgElement);
-        const blob = new Blob([svgString], { type: "image/svg+xml" });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement("a");
-        link.href = url;
-        link.download = "qrcode.svg";
-        link.click();
-        URL.revokeObjectURL(url); // Clean up the URL.createObjectURL blob
-      }
-    }
-  };
 
   const handleGenerateQRCode = async (data: UrlSchemaProps) => {
     setQrCodeUrl(data.url);
